@@ -9,7 +9,7 @@ import {TfiGallery} from "react-icons/tfi";
 import {TiContacts} from "react-icons/ti";
 
 
-export default function Aside() {
+export default function Aside({asideOpen, handleAsideOpen}) {
 
         const router = useRouter()
 
@@ -33,7 +33,7 @@ export default function Aside() {
    
   
         return <>
-                <aside className="asideleft active">
+                <aside className={asideOpen ? 'asideleft active' : 'asideleft'}>
                         <ul>
                                 <Link href='/'>
                                         <li className='navactive'>
@@ -50,13 +50,13 @@ export default function Aside() {
                                         </div>
                                         {activeLink === '/blogs' && (
                                             <ul>
-                                                    <Link href='/'>
+                                                    <Link href='/blogs'>
                                                             <li>All News</li>
                                                     </Link>
-                                                    <Link href='/'>
+                                                    <Link href='/blogs/draft'>
                                                             <li>Draft News</li>
                                                     </Link>
-                                                    <Link href='/'>
+                                                    <Link href='/blogs/addblog'>
                                                             <li>Add News</li>
                                                     </Link>
                                             </ul>
@@ -114,6 +114,9 @@ export default function Aside() {
                                         </li>
                                 </Link>
                         </ul>
+                        <button className='logoutbtn'>
+                               Logout
+                        </button>
                 </aside>
         </>
 
