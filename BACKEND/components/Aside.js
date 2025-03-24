@@ -4,8 +4,9 @@ import { IoHome } from "react-icons/io5"
 import {BsPostcard} from "react-icons/bs";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {MdOutlineWorkHistory} from "react-icons/md";
+import {MdAdminPanelSettings, MdOutlineWorkHistory} from "react-icons/md";
 import {TfiGallery} from "react-icons/tfi";
+import {TiContacts} from "react-icons/ti";
 
 
 export default function Aside() {
@@ -70,13 +71,13 @@ export default function Aside() {
                                         </div>
                                         {activeLink === '/projects' && (
                                             <ul>
-                                                    <Link href='/'>
+                                                    <Link href='/projects'>
                                                             <li>All Projects</li>
                                                     </Link>
-                                                    <Link href='/'>
+                                                    <Link href='/projects/draftprojects'>
                                                             <li>Draft Projects</li>
                                                     </Link>
-                                                    <Link href='/'>
+                                                    <Link href='/projects/addproject'>
                                                             <li>Add Projects</li>
                                                     </Link>
                                             </ul>
@@ -91,19 +92,25 @@ export default function Aside() {
                                         </div>
                                         {activeLink === '/gallery' && (
                                             <ul>
-                                                    <Link href='/'>
+                                                    <Link href='/gallery'>
                                                             <li>All Photos</li>
                                                     </Link>
-                                                    <Link href='/'>
+                                                    <Link href='/gallery/addphoto'>
                                                             <li>Add Photos</li>
                                                     </Link>
                                             </ul>
                                         )}
                                 </li>
                                 <Link href='/contacts'>
-                                        <li className='navactive'>
-                                                <IoHome/>
-                                                <span>Dashboard</span>
+                                        <li className={activeLink === '/contact' ? 'navactive' : ''} onClick={() => handleLinkClick('/contact')}>
+                                                <TiContacts />
+                                                <span>Contact</span>
+                                        </li>
+                                </Link>
+                                <Link href='/setting'>
+                                        <li className={activeLink === '/setting' ? 'navactive' : ''} onClick={() => handleLinkClick('/setting')}>
+                                                <MdAdminPanelSettings />
+                                                <span>Setting</span>
                                         </li>
                                 </Link>
                         </ul>
