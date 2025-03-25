@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { ReactSortable } from "react-sortablejs";
+import { MdDelete } from "react-icons/md";
 
 export default function Blog({ _id }) {
     const [redirect, setRedirect] = useState(false);
@@ -12,34 +14,83 @@ export default function Blog({ _id }) {
 
     const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState([]); // Array of image URLs
     const [description, setDescription] = useState("");
     const [blogCategory, setBlogCategory] = useState([]);
     const [tags, setTags] = useState([]);
     const [status, setStatus] = useState("");
 
     const [isUploading, setIsUploading] = useState(false);
+    const [uploadImagesQueue, setUploadImagesQueue] = useState([]); // Queue for upload promises
 
     async function createBlog(ev) {
         ev.preventDefault();
+
+        if (isUploading) {
+            await Promise.all(uploadImagesQueue);
+        }
 
         const data = { title, slug, images, description, blogCategory, tags, status };
 
         try {
             if (_id) {
-                // Update existing blog
                 await axios.put("/api/blogs", { ...data, _id });
                 toast.success("News Blog Updated");
             } else {
-                // Create new blog
                 await axios.post("/api/blogs", data);
                 toast.success("News Blog Created");
             }
             setRedirect(true);
-            router.push("/blogs"); // Redirect after success
+            router.push("/blogs");
         } catch (error) {
             toast.error(`Failed to save blog: ${error.response?.data?.error || error.message}`);
         }
+    }
+
+    async function uploadImages(e) {
+        const files = e.target?.files;
+        if (files?.length > 0) {
+            setIsUploading(true);
+            const newQueue = [];
+
+            for (const file of files) {
+                const formData = new FormData();
+                formData.append("file", file);
+
+                newQueue.push(
+                    axios.post("/api/upload", formData).then((res) => {
+                        setImages((oldImages) => [...oldImages, ...res.data.links]);
+                    })
+                );
+            }
+
+            setUploadImagesQueue(newQueue);
+
+            try {
+                await Promise.all(newQueue);
+                toast.success("Images Uploaded");
+            } catch (error) {
+                toast.error("Image upload failed: " + error.message);
+            } finally {
+                setIsUploading(false);
+                setUploadImagesQueue([]);
+            }
+        } else {
+            toast.error("No files selected. Please upload again!");
+        }
+    }
+
+    function updateImagesOrder(images) {
+        setImages(images);
+    }
+
+    function handleDeleteImage(index) {
+        console.log("Deleting image at index:", index); // Debug log
+        const updatedImages = [...images];
+        updatedImages.splice(index, 1); // Remove image at index
+        setImages(updatedImages);
+        toast.success("Image Deleted"); // Should display now
+        console.log("Updated images:", updatedImages); // Debug log
     }
 
     const handleSlugChange = (e) => {
@@ -116,11 +167,36 @@ export default function Blog({ _id }) {
                             className="mt-1"
                             accept="image/*"
                             multiple
-                            onChange={(e) => setImages(Array.from(e.target.files))}
+                            onChange={uploadImages}
                         />
                     </div>
                     <div className="w-100 flex flex-left mt-1">{isUploading && <Spinner />}</div>
                 </div>
+
+                {!isUploading && (
+                    <div className="flex">
+                        <ReactSortable
+                            list={Array.isArray(images) ? images : []}
+                            setList={updateImagesOrder}
+                            animation={200}
+                            className="flex gap-1"
+                        >
+                            {images?.map((link, index) => (
+                                <div className="uploadedimg" key={link}>
+                                    <img src={link} alt="image" className="object-cover" />
+                                    <div className="deleteimg">
+                                        <button
+                                            type="button" // Prevent form submission
+                                            onClick={() => handleDeleteImage(index)}
+                                        >
+                                            <MdDelete />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </ReactSortable>
+                    </div>
+                )}
 
                 {/* Markdown Description */}
                 <div className="description w-100 flex flex-col flex-left mb-2">
@@ -130,7 +206,7 @@ export default function Blog({ _id }) {
                         style={{ width: "100%", height: "400px" }}
                         placeholder="Write your news content here..."
                         value={description}
-                        onChange={({ text }) => setDescription(text)} // Fixed onChange
+                        onChange={({ text }) => setDescription(text)}
                     />
                 </div>
 
@@ -187,7 +263,7 @@ export default function Blog({ _id }) {
 
                 {/* Submit Button */}
                 <div className="w-100 mt-2">
-                    <button type="submit" className="w-100 addwebbtn flex-center">
+                    <button type="submit" className="w-100 addwebbtn flex-center" disabled={isUploading}>
                         SAVE NEWS
                     </button>
                 </div>
