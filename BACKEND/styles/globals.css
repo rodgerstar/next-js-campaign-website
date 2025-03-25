@@ -1822,3 +1822,25 @@ button {
         width: 125px;
     }
 }
+
+
+
+.ql-container {
+    width: 100%; /* Full width like MarkdownEditor */
+    height: 250px; /* Reduced height */
+}
+
+.ql-editor {
+    font-size: 16px; /* Readable text size */
+    min-height: 200px; /* Minimum height for content */
+}
+
+/* Adjust for small phones (e.g., screens < 640px) */
+@media (max-width: 640px) {
+    .ql-container {
+        height: 200px; /* Shorter for small screens */
+    }
+    .ql-editor {
+        font-size: 14px; /* Slightly smaller but readable */
+    }
+}

@@ -1,5 +1,6 @@
-import MarkdownEditor from "react-markdown-editor-lite";
-import "react-markdown-editor-lite/lib/index.css";
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 import Spinner from "@/components/Spinner";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -14,21 +15,18 @@ export default function Blog({ _id }) {
 
     const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
-    const [images, setImages] = useState([]); // Array of image URLs
+    const [images, setImages] = useState([]);
     const [description, setDescription] = useState("");
     const [blogCategory, setBlogCategory] = useState([]);
     const [tags, setTags] = useState([]);
     const [status, setStatus] = useState("");
 
     const [isUploading, setIsUploading] = useState(false);
-    const [uploadImagesQueue, setUploadImagesQueue] = useState([]); // Queue for upload promises
+    const [uploadImagesQueue, setUploadImagesQueue] = useState([]);
 
     async function createBlog(ev) {
         ev.preventDefault();
-
-        if (isUploading) {
-            await Promise.all(uploadImagesQueue);
-        }
+        if (isUploading) await Promise.all(uploadImagesQueue);
 
         const data = { title, slug, images, description, blogCategory, tags, status };
 
@@ -52,20 +50,16 @@ export default function Blog({ _id }) {
         if (files?.length > 0) {
             setIsUploading(true);
             const newQueue = [];
-
             for (const file of files) {
                 const formData = new FormData();
                 formData.append("file", file);
-
                 newQueue.push(
                     axios.post("/api/upload", formData).then((res) => {
                         setImages((oldImages) => [...oldImages, ...res.data.links]);
                     })
                 );
             }
-
             setUploadImagesQueue(newQueue);
-
             try {
                 await Promise.all(newQueue);
                 toast.success("Images Uploaded");
@@ -85,12 +79,10 @@ export default function Blog({ _id }) {
     }
 
     function handleDeleteImage(index) {
-        console.log("Deleting image at index:", index); // Debug log
         const updatedImages = [...images];
-        updatedImages.splice(index, 1); // Remove image at index
+        updatedImages.splice(index, 1);
         setImages(updatedImages);
-        toast.success("Image Deleted"); // Should display now
-        console.log("Updated images:", updatedImages); // Debug log
+        toast.success("Image Deleted");
     }
 
     const handleSlugChange = (e) => {
@@ -112,7 +104,6 @@ export default function Blog({ _id }) {
     return (
         <>
             <form action="" className="addWebsiteform" onSubmit={createBlog}>
-                {/* Blog Title */}
                 <div className="w-100 flex flex-col flex-left mb-2">
                     <label htmlFor="title">Title</label>
                     <input
@@ -124,7 +115,6 @@ export default function Blog({ _id }) {
                     />
                 </div>
 
-                {/* Blog Slug */}
                 <div className="w-100 flex flex-col flex-left mb-2">
                     <label htmlFor="slug">Slug (SEO-friendly URL)</label>
                     <input
@@ -136,7 +126,6 @@ export default function Blog({ _id }) {
                     />
                 </div>
 
-                {/* Blog Category */}
                 <div className="w-100 flex flex-col flex-left mb-2">
                     <label htmlFor="category">Select Category (Ctrl + click for multiple)</label>
                     <select
@@ -157,7 +146,6 @@ export default function Blog({ _id }) {
                     </select>
                 </div>
 
-                {/* Blog Image */}
                 <div className="w-100 flex flex-col flex-left mb-2">
                     <div className="w-100">
                         <label htmlFor="fileinput">Images (first image will be used as thumbnail)</label>
@@ -185,10 +173,7 @@ export default function Blog({ _id }) {
                                 <div className="uploadedimg" key={link}>
                                     <img src={link} alt="image" className="object-cover" />
                                     <div className="deleteimg">
-                                        <button
-                                            type="button" // Prevent form submission
-                                            onClick={() => handleDeleteImage(index)}
-                                        >
+                                        <button type="button" onClick={() => handleDeleteImage(index)}>
                                             <MdDelete />
                                         </button>
                                     </div>
@@ -198,19 +183,25 @@ export default function Blog({ _id }) {
                     </div>
                 )}
 
-                {/* Markdown Description */}
                 <div className="description w-100 flex flex-col flex-left mb-2">
                     <label htmlFor="description">News Content</label>
-                    <MarkdownEditor
-                        id="description"
-                        style={{ width: "100%", height: "400px" }}
-                        placeholder="Write your news content here..."
+                    <ReactQuill
+                        className='ql-container ql-editor'
                         value={description}
-                        onChange={({ text }) => setDescription(text)}
+                        onChange={setDescription}
+                        placeholder="Write your news content here..."
+                        modules={{
+                            toolbar: [
+                                [{ header: [1, 2, 3, false] }],
+                                ["bold", "italic", "underline"],
+                                [{ list: "ordered" }, { list: "bullet" }],
+                                ["link", "image"],
+                                ["clean"],
+                            ],
+                        }}
                     />
                 </div>
 
-                {/* Tags */}
                 <div className="tags w-100 flex flex-col flex-left mb-2">
                     <label htmlFor="tags">Tags (Ctrl + click for multiple)</label>
                     <select
@@ -246,7 +237,6 @@ export default function Blog({ _id }) {
                     </select>
                 </div>
 
-                {/* Status */}
                 <div className="w-100 flex flex-col flex-left mb-2">
                     <label htmlFor="status">Status</label>
                     <select
@@ -261,7 +251,6 @@ export default function Blog({ _id }) {
                     </select>
                 </div>
 
-                {/* Submit Button */}
                 <div className="w-100 mt-2">
                     <button type="submit" className="w-100 addwebbtn flex-center" disabled={isUploading}>
                         SAVE NEWS
