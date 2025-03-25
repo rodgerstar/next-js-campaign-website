@@ -1,16 +1,23 @@
-import {MongoClient} from "mongodb";
-import {process} from "yarn/lib/cli";
-import {database} from "faker";
+import mongoose from "mongoose";
 
+export async function mongooseConnect() {
+    if (mongoose.connection.readyState === 1) {
+        return mongoose.connection.asPromise();
+    }
 
-export default async function connectToDatabase() {
-    const client = new MongoClient(process.env.MONGODB_URI);
+    const uri = process.env.MONGODB_URI;
+    console.log("Attempting to connect with URI:", uri.replace(/:([^@]+)@/, ":****@")); // Mask password in logs
+
+    if (!uri) {
+        throw new Error("MONGODB_URI is not defined in .env.local");
+    }
 
     try {
-        await client.connect();
-        return client.db()
-    } catch (error){
-        console.error('Error connecting to database', error);
+        await mongoose.connect(uri);
+        console.log("Connected to MongoDB successfully");
+        return mongoose.connection;
+    } catch (error) {
+        console.error("MongoDB connection error:", error);
         throw error;
     }
 }
