@@ -9,17 +9,28 @@ import toast from "react-hot-toast";
 import { ReactSortable } from "react-sortablejs";
 import { MdDelete } from "react-icons/md";
 
-export default function Blog({ _id }) {
+export default function Blog({
+    _id,
+    title: existingTitle,
+    slug: existingSlug,
+    images: existingImages,
+    description: existingDescription,
+    blogCategory: existingBlogCategory,
+    tags: existingTags,
+    status: existingStatus,
+
+
+                             }) {
     const [redirect, setRedirect] = useState(false);
     const router = useRouter();
 
-    const [title, setTitle] = useState("");
-    const [slug, setSlug] = useState("");
-    const [images, setImages] = useState([]);
-    const [description, setDescription] = useState("");
-    const [blogCategory, setBlogCategory] = useState([]);
-    const [tags, setTags] = useState([]);
-    const [status, setStatus] = useState("");
+    const [title, setTitle] = useState(existingTitle ||"");
+    const [slug, setSlug] = useState(existingSlug || "");
+    const [images, setImages] = useState(existingImages || []);
+    const [description, setDescription] = useState(existingDescription || "");
+    const [blogCategory, setBlogCategory] = useState(existingBlogCategory || []);
+    const [tags, setTags] = useState(existingTags || []);
+    const [status, setStatus] = useState(existingStatus || "");
 
     const [isUploading, setIsUploading] = useState(false);
     const [uploadImagesQueue, setUploadImagesQueue] = useState([]);
@@ -141,7 +152,6 @@ export default function Blog({ _id }) {
                         <option value="youth-employment">Youth and Employment</option>
                         <option value="campaign-updates">Campaign Updates</option>
                         <option value="women-family">Women and Family Welfare</option>
-                        <option value="security-safety">Security and Safety</option>
                         <option value="environment-agriculture">Environment and Agriculture</option>
                     </select>
                 </div>
