@@ -543,7 +543,7 @@ button {
 .leftyearoverview {
     position: relative;
     width: 65%;
-    height: 600px;
+    height: 700px;
     background-color: #fff;
     box-shadow: 0 0 10px #d4d4d4;
     border-radius: 50px;
@@ -1843,4 +1843,25 @@ button {
     .ql-editor {
         font-size: 14px; /* Slightly smaller but readable */
     }
+}
+
+.scrollable-table {
+    max-height: 700px; /* Adjust this value as needed */
+    overflow-y: auto;
+    width: 100%; /* Ensures table spans container */
+}
+
+/* Optional: Style the table for better appearance */
+.scrollable-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+
+.scrollable-table thead th {
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    background: #f5f5f5; /* Keeps header visible while scrolling */
 }

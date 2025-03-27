@@ -14,7 +14,7 @@ export default function Home() {
     const options = {
         responsive: true,
         plugins: {
-            legend: { // Fixed typo: 'Legend' → 'legend'
+            legend: {
                 position: "top",
             },
             title: {
@@ -29,7 +29,7 @@ export default function Home() {
             try {
                 const response = await fetch("/api/blogs");
                 const result = await response.json();
-                if (result.success) { // Check API response structure
+                if (result.success) {
                     setBlogsData(result.data);
                 }
                 setLoading(false);
@@ -41,13 +41,12 @@ export default function Home() {
         fetchData();
     }, []);
 
-    // Monthly data per year based on blog creation date
     const monthlyData = blogsData
         .filter(dat => dat.status === "publish")
         .reduce((acc, blog) => {
-            const date = new Date(blog.createdAt || blog.date); // Use your blog's date field
+            const date = new Date(blog.createdAt || blog.date);
             const year = date.getFullYear();
-            const month = date.getMonth(); // 0-11 for Jan-Dec
+            const month = date.getMonth();
             acc[year] = acc[year] || Array(12).fill(0);
             acc[year][month]++;
             return acc;
@@ -60,10 +59,9 @@ export default function Home() {
     const datasets = years.map(year => ({
         label: `${year}`,
         data: monthlyData[year] || Array(12).fill(0),
-        backgroundColor: `rgba(${Math.floor(Math.random() * 256 )}, ${Math.floor(Math.random() * 256 )}, ${Math.floor(Math.random() * 256 )}, ${Math.floor(Math.random() * 256 )}, 0.5)`
+        backgroundColor: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.5)`
     }));
 
-    // Define the data object for Bar chart
     const data = {
         labels,
         datasets
@@ -128,7 +126,7 @@ export default function Home() {
                         <Bar data={data} options={options} />
                     </div>
 
-                    <div class="right_salescont">
+                    <div className="right_salescont">
                         <div>
                             <h3 className='mb-1'>News Blogs By Category</h3>
                             <ul className='creative-dots'>
@@ -140,36 +138,44 @@ export default function Home() {
                                 <li className='semi-small-dot'></li>
                             </ul>
                         </div>
-                        <div className='blogscategory flex flex center'>
-                            <table>
-                                <thead>
-                                <tr>
-                                    <td>Community News</td>
-                                    <td>{blogsData.filter(dat => dat.blogCategory.includes("community-engagement")).length}</td>
-                                </tr>
-                                <tr>
-                                    <td>Campaign News</td>
-                                    <td>{blogsData.filter(dat => dat.blogCategory.includes("campaign-updates")).length}</td>
-                                </tr>
-                                <tr>
-                                    <td>Youth News</td>
-                                    <td>{blogsData.filter(dat => dat.blogCategory.includes("youth-employment")).length}</td>
-                                </tr>
-                                <tr>
-                                    <td>Development News</td>
-                                    <td>{blogsData.filter(dat => dat.blogCategory.includes("development-projects")).length}</td>
-                                </tr>
-                                <tr>
-                                    <td>Women/Family News</td>
-                                    <td>{blogsData.filter(dat => dat.blogCategory.includes("women-family")).length}</td>
-                                </tr>
-                                <tr>
-                                    <td>Health and Education</td>
-                                    <td>{blogsData.filter(dat => dat.blogCategory.includes("health-education")).length}</td>
-                                </tr>
+                        <div className='blogscategory flex flex-center'>
 
-                                </thead>
-                            </table>
+                            <div className="scrollable-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Topics</th>
+                                            <th>Data</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Community News</td>
+                                        <td>{blogsData.filter(dat => dat.blogCategory.includes("community-engagement")).length}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Campaign News</td>
+                                        <td>{blogsData.filter(dat => dat.blogCategory.includes("campaign-updates")).length}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Youth News</td>
+                                        <td>{blogsData.filter(dat => dat.blogCategory.includes("youth-employment")).length}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Development News</td>
+                                        <td>{blogsData.filter(dat => dat.blogCategory.includes("development-projects")).length}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Women/Family News</td>
+                                        <td>{blogsData.filter(dat => dat.blogCategory.includes("women-family")).length}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Health and Education</td>
+                                        <td>{blogsData.filter(dat => dat.blogCategory.includes("health-education")).length}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
