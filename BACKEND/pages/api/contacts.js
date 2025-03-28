@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { mongooseConnect } from "@/lib/mongodb";
-import { Blog } from "@/models/Blog";
+import {Contact} from "@/models/contact";
 
 export default async function handler(req, res) {
     const { method } = req;
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
         if (method === "POST") {
             const { name, email, phone, title, description } = req.body;
-            const blogDoc = await Blog.create({
+            const blogDoc = await Contact.create({
                 name,
                 email,
                 phone,
@@ -20,13 +20,13 @@ export default async function handler(req, res) {
             res.status(201).json({ success: true, data: blogDoc });
         } else if (method === "GET") {
             if (req.query.id) {
-                const blog = await Blog.findById(req.query.id);
+                const blog = await Contact.findById(req.query.id);
                 if (!blog) {
                     return res.status(404).json({ success: false, error: "Blog not found" });
                 }
                 res.json({ success: true, data: blog });
             } else {
-                const blogs = await Blog.find();
+                const blogs = await Contact.find();
                 res.json({ success: true, data: blogs.reverse() });
             }
         } else if (method === "PUT") {
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
             res.json({ success: true, data: updatedBlog });
         } else if (method === "DELETE") {
             if (req.query?.id) {
-                const result = await Blog.deleteOne({ _id: req.query.id });
+                const result = await Contact.deleteOne({ _id: req.query.id });
                 if (result.deletedCount === 0) {
                     return res.status(404).json({ success: false, error: "Blog not found" });
                 }
