@@ -116,6 +116,24 @@ export default function Blogs() {
                         )}
                     </tbody>
                 </table>
+                {/*for pagination*/}
+                {publishedBlogs.length === 0 ? ( "") : (
+                    <div className='blogpagination'>
+                        <button onClick={() => paginate(currentPage - 1)}
+                                disabled={currentPage === 1}
+                        >Previous</button>
+                        {pageNumbers.slice(Math.max(currentPage - 3, 0), Math.min(currentPage + 2, pageNumbers.length)).map(number => (
+                            <button
+                                onClick={() => paginate(number)}
+                                className={`${currentPage === currentPage ? "active" : ""}`}
+                                key={number}>
+
+                                {number}
+                            </button>
+                        ))}
+                        <button onClick={() => paginate(currentPage + 1 )} disabled={currentBlog.length < perPage}>Next</button>
+                    </div>
+                )}
             </div>
         </div>
     );
