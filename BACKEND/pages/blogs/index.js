@@ -56,7 +56,7 @@ export default function Blogs() {
                 <div className="breadcrumb">
                     <IoNewspaper />
                     <span>/</span>
-                    <span>Add News</span>
+                    <span>News</span>
                 </div>
             </div>
             <div className="blogstable">

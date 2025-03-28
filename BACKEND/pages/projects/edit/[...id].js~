@@ -14,7 +14,7 @@ export default function EditProject() {
         if (!id) {
             return;
         } else {
-            axios.get('/api/projects?id=' + id).then((response) => {
+            axios.get('/api/blogs?id=' + id).then((response) => {
                 setProductInfo(response.data.data); // Adjust for your API structure
             });
         }
