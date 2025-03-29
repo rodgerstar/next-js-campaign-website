@@ -38,7 +38,7 @@ export default function Projects() {
     const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
 
     // Filter for published projects (adjust statuses as needed)
-    const publishedProjects = currentProjects.filter(ab => ab.status === "Published" || "Planned" || "Future Initiative" || "On Hold" || "Proposed" || "Completed" || "OnGoing" || "Finished" );
+    const publishedProjects = currentProjects.filter(ab => ab.status ===  "publish" );
 
 
     const pageNumbers = [];

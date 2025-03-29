@@ -1,26 +1,25 @@
-// BACKEND/components/Project.js
 import dynamic from "next/dynamic";
-import {useState, useEffect} from "react";
-import {useRouter} from "next/router";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import toast from "react-hot-toast";
-import {ReactSortable} from "react-sortablejs";
-import {MdDelete} from "react-icons/md";
+import { ReactSortable } from "react-sortablejs";
+import { MdDelete } from "react-icons/md";
 import Spinner from "@/components/Spinner";
 
-const ReactQuill = dynamic(() => import("react-quill"), {ssr: false});
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
 export default function Project({
-                                    _id,
-                                    title: existingTitle,
-                                    slug: existingSlug,
-                                    images: existingImages,
-                                    description: existingDescription,
-                                    projectCategory: existingProjectCategory,
-                                    tags: existingTags,
-                                    status: existingStatus,
-                                }) {
+    _id,
+    title: existingTitle,
+    slug: existingSlug,
+    images: existingImages,
+    description: existingDescription,
+    projectCategory: existingProjectCategory,
+    tags: existingTags,
+    status: existingStatus,
+}) {
     const [redirect, setRedirect] = useState(false);
     const [title, setTitle] = useState(existingTitle || "");
     const [slug, setSlug] = useState(existingSlug || "");
@@ -28,7 +27,7 @@ export default function Project({
     const [description, setDescription] = useState(existingDescription || "");
     const [projectCategory, setProjectCategory] = useState(existingProjectCategory || []);
     const [tags, setTags] = useState(existingTags || []);
-    const [status, setStatus] = useState(existingStatus || "Proposed");
+    const [status, setStatus] = useState(existingStatus || "draft"); // Changed to string with default "draft"
     const [isUploading, setIsUploading] = useState(false);
     const [uploadImagesQueue, setUploadImagesQueue] = useState([]);
 
@@ -46,11 +45,11 @@ export default function Project({
             await Promise.all(uploadImagesQueue);
         }
 
-        const data = {title, slug, images, description, projectCategory, tags, status};
+        const data = { title, slug, images, description, projectCategory, tags, status };
 
         try {
             if (_id) {
-                await axios.put("/api/projects", {...data, _id});
+                await axios.put("/api/projects", { ...data, _id });
                 toast.success("Project Updated");
             } else {
                 await axios.post("/api/projects", data);
@@ -62,7 +61,6 @@ export default function Project({
         }
     }
 
-    // Rest of your functions (uploadImages, updateImagesOrder, etc.) remain unchanged
     async function uploadImages(e) {
         const files = e.target?.files;
         if (!files || files.length === 0) {
@@ -119,7 +117,6 @@ export default function Project({
 
     return (
         <form className="addWebsiteform" onSubmit={createProject}>
-            {/* Your form JSX remains unchanged */}
             <div className="w-100 flex flex-col flex-left mb-2">
                 <label htmlFor="title">Title</label>
                 <input
@@ -177,7 +174,7 @@ export default function Project({
                         onChange={uploadImages}
                     />
                 </div>
-                <div className="w-100 flex flex-left mt-1">{isUploading && <Spinner/>}</div>
+                <div className="w-100 flex flex-left mt-1">{isUploading && <Spinner />}</div>
             </div>
 
             {!isUploading && (
@@ -190,10 +187,10 @@ export default function Project({
                     >
                         {images?.map((link, index) => (
                             <div className="uploadedimg" key={link}>
-                                <img src={link} alt="image" className="object-cover"/>
+                                <img src={link} alt="image" className="object-cover" />
                                 <div className="deleteimg">
                                     <button type="button" onClick={() => handleDeleteImage(index)}>
-                                        <MdDelete/>
+                                        <MdDelete />
                                     </button>
                                 </div>
                             </div>
@@ -205,15 +202,15 @@ export default function Project({
             <div className="description w-100 flex flex-col flex-left mb-2">
                 <label htmlFor="description">News Content</label>
                 <ReactQuill
-                    className='ql-container ql-editor'
+                    className="ql-container ql-editor"
                     value={description}
                     onChange={setDescription}
                     placeholder="Write your news content here..."
                     modules={{
                         toolbar: [
-                            [{header: [1, 2, 3, false]}],
+                            [{ header: [1, 2, 3, false] }],
                             ["bold", "italic", "underline"],
-                            [{list: "ordered"}, {list: "bullet"}],
+                            [{ list: "ordered" }, { list: "bullet" }],
                             ["link", "image"],
                             ["clean"],
                         ],
@@ -261,13 +258,8 @@ export default function Project({
                     value={status}
                     onChange={e => setStatus(e.target.value)}
                 >
-                    <option value="Finished">Finished</option>
-                    <option value="OnGoing">OnGoing</option>
-                    <option value="Planned">Planned</option>
-                    <option value="Proposed">Proposed</option>
-                    <option value="On Hold">On Hold</option>
-                    <option value="Future Initiative">Future Initiative</option>
-                    <option value="Draft">Draft</option>
+                    <option value="publish">Publish</option>
+                    <option value="draft">Draft</option>
                 </select>
             </div>
 
