@@ -1,32 +1,37 @@
-import {useSession} from "next-auth/react";
-import {useRouter} from "next/router";
+// components/LoginLayout.js
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
+export default function LoginLayout({ children }) {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [hasRedirected, setHasRedirected] = useState(false);
 
-export default function LoginLayout() {
-
-    const {data: session, status} = useSession();
-
-    if (status === 'loading') {
-        //loading state
-        return <div className='full-h flex flex-center'>
-            <div className='loading-bar'>
-                loading...
-            </div>
-            </div>;
-
+  useEffect(() => {
+    const isAuthPage = ["/auth/signin", "/auth/signup"].includes(router.pathname);
+    if (
+      status !== "loading" &&
+      !session &&
+      !isAuthPage &&
+      !hasRedirected
+    ) {
+      setHasRedirected(true);
+      router.push("/auth/signup"); // Changed to /auth/signup
     }
-    const router = useRouter();
+  }, [session, status, router, hasRedirected]);
 
-    if (!session) {
-        router.push('/auth/login');
-        return null
-    }
+  if (status === "loading") {
+    return (
+      <div className="full-h flex flex-center">
+        <div className="loading-bar">loading...</div>
+      </div>
+    );
+  }
 
-    if (session) {
-        return <>
-            {children}
-        </>
-    }
+  if (!session) {
+    return null; // Return null while redirecting or on auth pages
+  }
 
-
+  return <>{children}</>;
 }
