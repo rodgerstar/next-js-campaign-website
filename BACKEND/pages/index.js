@@ -4,6 +4,7 @@ import Loading from "@/components/Loading";
 import { IoNewspaper } from "react-icons/io5";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { useEffect, useState } from "react";
+import LoginLayout from "@/components/LoginLayout";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -90,6 +91,7 @@ export default function Home() {
     const publishedProjects = projectData.filter((dat) => dat.status === "publish");
 
     return (
+        <LoginLayout>
         <>
             <Head>
                 <title>Portfolio Backend</title>
@@ -201,5 +203,6 @@ export default function Home() {
                 </div>
             </div>
         </>
+        </LoginLayout>
     );
 }
