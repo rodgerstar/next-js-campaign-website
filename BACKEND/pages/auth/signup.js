@@ -61,37 +61,39 @@ export default function Signup() {
         </div>
         <form className='form' onSubmit={handleSubmit}>
           <input
-            type="email"
-            name='email'
-            value={form.email}
-            onChange={handleChange}
-            placeholder='Enter email address'
-            className='input'
+              type="email"
+              name='email'
+              value={form.email}
+              onChange={handleChange}
+              placeholder='Enter email address'
+              className='input'
           />
           <input
-            type="password"
-            name='password'
-            value={form.password}
-            onChange={handleChange} // Fixed: was handleSubmit
-            placeholder='Enter password'
-            className='input'
+              type="password"
+              name='password'
+              value={form.password}
+              onChange={handleChange} // Fixed: was handleSubmit
+              placeholder='Enter password'
+              className='input'
           />
           <input
-            type="password"
-            name='confirmPassword' // Fixed case to match state
-            value={form.confirmPassword}
-            onChange={handleChange} // Fixed: was handleSubmit
-            placeholder='Confirm password'
-            className='input'
+              type="password"
+              name='confirmPassword' // Fixed case to match state
+              value={form.confirmPassword}
+              onChange={handleChange} // Fixed: was handleSubmit
+              placeholder='Confirm password'
+              className='input'
           />
           <button className='login-button' type='submit'>
             Sign Up
           </button>
           <div className='signupask'>
-            Already have an account  <Link href='/auth/signin'><p>Click here</p></Link>
+            Already have an account <Link href='/auth/signin'><p>Click here</p></Link>
           </div>
           {error && <p className="error">{error}</p>}
         </form>
+
+        <span className='agreement' target='_blank' href='https://x.com/TTracker254'>Powered by NEXEL.</span>
       </div>
     </div>
   );

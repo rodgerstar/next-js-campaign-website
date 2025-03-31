@@ -73,6 +73,8 @@ export default function signin() {
           </button>
           {error && <p className="error">{error}</p>}
         </form>
+
+        <span className='agreement' target='_blank' href='https://x.com/TTracker254'>Powered by NEXEL.</span>
       </div>
     </div>
   );
