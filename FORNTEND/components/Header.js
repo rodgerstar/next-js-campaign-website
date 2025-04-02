@@ -7,8 +7,30 @@ import {useEffect, useState} from "react";
 
 export default function Header() {
 
+    // dark mode on off
+    const [darkMode, setDarkMode] = useState(false);
 
+    useEffect(() => {
+        // check local storage for dark mode preference on initial load
+        const isDarkMode = localStorage.getItem("darkMode") === "true";
+        setDarkMode(isDarkMode)
+    }, []);
 
+    useEffect(() => {
+        // apply dark mode styles when dark mode state changes
+        if (darkMode) {
+            document.body.classList.add("dark");
+            localStorage.setItem("darkMode", "true");
+        } else {
+            document.body.classList.remove("dark");
+            localStorage.setItem("darkMode", "false");
+        }
+    }, [darkMode]);
+
+    // dark mode function
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode); // toggle dark mode status
+    }
 
     // navlist active
     const router = useRouter();
@@ -49,26 +71,31 @@ export default function Header() {
                 </div>
                 <div className='navlist flex gap-2'>
                     <ul className='flex gap-2'>
-                        <li>
-                            <Link href='/' className='active'>Home</Link>
+                         <li>
+                            <Link href='/' onClick={() => handleLinkClick('/')} className={activeLink === '/' ? 'active' : '' }>Home</Link>
                         </li>
                         <li>
-                            <Link href='/services'>My Vision</Link>
+                            <Link href='/services' onClick={() => handleLinkClick('/services')} className={activeLink === '/services' ? 'active' : '' }>My Vision</Link>
                         </li>
                         <li>
-                            <Link href='/projects'>Projects</Link>
+                            <Link href='/projects' onClick={() => handleLinkClick('/projects')} className={activeLink === '/projects' ? 'active' : '' }>Projects</Link>
                         </li>
                         <li>
-                            <Link href='/blogs'>News</Link>
+                            <Link href='/blogs' onClick={() => handleLinkClick('/blogs')}
+                                  className={activeLink === '/blogs' ? 'active' : ''}>News</Link>
                         </li>
                         <li>
-                            <Link href='/gallery'>Gallery</Link>
+                            <Link href='/gallery' onClick={() => handleLinkClick('/gallery')}
+                                  className={activeLink === '/gallery' ? 'active' : ''}>Gallery</Link>
                         </li>
                         <li>
-                            <Link href='/contact' >Contact</Link>
+                            <Link href='/contact' onClick={() => handleLinkClick('/contact')}
+                                  className={activeLink === '/contact' ? 'active' : ''}>Contact</Link>
                         </li>
                     </ul>
-                    <div className='darkmodetoggle'>
+                    <div
+                        onClick={toggleDarkMode}
+                        className='darkmodetoggle'>
                         <IoMoonSharp/>
                     </div>
                     <button><Link href='/contact'>Lets Talk</Link></button>
@@ -83,7 +110,7 @@ export default function Header() {
                     </div>
                     <ul className='flex gap-1 flex-col flex-left mt-3' onClick={handleMobileClose}>
                         <li>
-                            <Link href='/' onClick={() => handleLinkClick('/')} className={activeLink === '/' ? 'active' : '' }>Home</Link>
+                        <Link href='/' onClick={() => handleLinkClick('/')} className={activeLink === '/' ? 'active' : '' }>Home</Link>
                         </li>
                         <li>
                             <Link href='/services' onClick={() => handleLinkClick('/services')} className={activeLink === '/services' ? 'active' : '' }>My Vision</Link>
