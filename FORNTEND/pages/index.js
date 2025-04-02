@@ -30,8 +30,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>vbmcoder - Personal Portfolio</title>
-        <meta name="description" content="vbmcoder - Personal Portfolio" />
+        <title>Evans Osore - Makunga Isongo Malaha Ward 2027</title>
+        <meta name="description" content="evans osore campaign website" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" type="image/png" href="/favicon.png" />
       </Head>

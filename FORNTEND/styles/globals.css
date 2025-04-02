@@ -555,7 +555,7 @@ header.sticky {
 
 .hero {
     padding: 250px 0 50px;
-    background: #0f0715;
+    background: #2A3F5F;
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -856,7 +856,7 @@ header.sticky {
     position: relative;
     padding-top: 120px;
     padding-bottom: 120px;
-    background-color: #050709;
+    background-color: #1F2E47;
 }
 
 .dark .services {
@@ -1122,7 +1122,7 @@ header.sticky {
     position: relative;
     padding: 8rem 1rem;
     padding-top: 10rem;
-    background-color: #0f0715;
+    background-color: #2A3F5F;
 }
 
 .dark .projects {
@@ -1316,7 +1316,7 @@ header.sticky {
 .exstudy {
     position: relative;
     padding: 120px 1rem;
-    background-color: #050709;
+    background-color: #1F2E47;
 }
 
 .dark .exstudy {
@@ -1452,7 +1452,7 @@ header.sticky {
 .myskills {
     position: relative;
     padding: 120px 1rem;
-    background: #0f0715;
+    background: #2A3F5F;
 }
 
 .dark .myskills {
@@ -1578,7 +1578,7 @@ header.sticky {
 .recentblogs {
     position: relative;
     padding: 120px 1rem;
-    background: #0f0715;
+    background: #1F2E47;
 }
 
 .dark .recentblogs {

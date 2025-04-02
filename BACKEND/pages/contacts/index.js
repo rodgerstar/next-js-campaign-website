@@ -78,6 +78,7 @@ export default function contacts() {
                         <th>Email</th>
                         <th>Title</th>
                         <th>Phone No</th>
+                        <th>Area</th>
                         <th>Open Contact</th>
                     </tr>
                     </thead>
@@ -92,7 +93,7 @@ export default function contacts() {
                         <>
                             {publishedBlogs.length === 0 ? (
                                 <tr>
-                                    <td colSpan={6} className="text-center">
+                                    <td colSpan={7} className="text-center">
                                         No Contact Found!
                                     </td>
                                 </tr>
@@ -104,6 +105,7 @@ export default function contacts() {
                                         <td><h3>{blog.email}</h3></td>
                                         <td><h3>{blog.title}</h3></td>
                                         <td><h3>{blog.phone}</h3></td>
+                                        <td><h3>{blog.area}</h3></td>
                                         <td>
                                             <div className='flex gap-2 flex-center'>
                                                 <Link href={'/contacts/view/' + blog._id}>
