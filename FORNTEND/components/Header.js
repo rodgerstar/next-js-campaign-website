@@ -96,7 +96,7 @@ export default function Header() {
                     <div
                         onClick={toggleDarkMode}
                         className='darkmodetoggle'>
-                        <IoMoonSharp/>
+                        {darkMode ? <IoMoonSharp/> : <LuSun/>}
                     </div>
                     <button><Link href='/contact'>Lets Talk</Link></button>
                     <div className='mobiletogglesvg' onClick={handleMobileOpen}>

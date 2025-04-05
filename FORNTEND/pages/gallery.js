@@ -6,6 +6,9 @@ export default function gallery() {
         <Head>
             <title>Gallery Photos</title>
         </Head>
+        <div class='projects'>
+            test
+        </div>
       
     </>
 }

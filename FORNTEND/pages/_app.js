@@ -7,7 +7,9 @@ export default function App({ Component, pageProps }) {
   return <>
     <Header />
     <main id="site-wrapper">
-      <Component {...pageProps} />
+      <Component {...pageProps}
+
+      />
     </main>
   </>
 }

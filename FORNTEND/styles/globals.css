@@ -342,7 +342,6 @@ header.sticky {
 .dark header:not(.sticky) {
     background-color: var(--pure-white);
     padding: 3rem 1rem;
-    height: 80px;
 }
 
 .logo img {
