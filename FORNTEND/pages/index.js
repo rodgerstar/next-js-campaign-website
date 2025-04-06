@@ -1,4 +1,7 @@
 import Head from "next/head";
+import {FaLinkedinIn, FaTiktok, FaTwitter} from "react-icons/fa";
+import {CiFacebook} from "react-icons/ci";
+import {FaFacebookF, FaXTwitter} from "react-icons/fa6";
 
 export default function Home() {
 
@@ -38,10 +41,53 @@ export default function Home() {
 
       {/* hero section */}
       <section className="hero">
-      
+          <div className='intro_text'>
+              <svg viewBox="0 0 1320 300">
+                  <text x='50%' y='50%' textAnchor='middle' className='animate-stroke'>MCHAPA KAZI</text>
+              </svg>
+          </div>
+          <div className='container'>
+              <div className='flex w-100'>
+                  <div className='heroinfoleft'>
+                      <span className='hero_sb_title'>Your Voice, Your Power, Your Future.</span>
+                      <h1 className='hero_title'>Elect Osore Evans.</h1>
+
+                    <div className='hero_img_box heroimgbox'>
+                        <img src="/img/evans.png" alt=""/>
+                    </div>
+                      <div className='lead '>
+                          We’ve waited long enough for leaders who truly represent us. The time for real, honest leadership is now. I’m ready to stand with you, walk with you, and work for you — because our community deserves better. <span > Ahadi ni Matendo, Kuaminika, Kutenda na Kuleta Mabadiliko. </span>
+                      </div>
+                      <ul className='hero_social'>
+                          <li>
+                              <a href="/"><FaXTwitter /></a>
+                          </li>
+                          <li>
+                              <a href="/"><FaFacebookF /></a>
+                          </li>
+                          <li>
+                              <a href="/"><FaTiktok /></a>
+                          </li>
+                          <li>
+                              <a href="/"><FaLinkedinIn /></a>
+                          </li>
+                      </ul>
+                  </div>
+
+
+                  {/*right side*/}
+              <div className='heroimageright'>
+                  <div className='hero_img_box'>
+                      <img src="/img/evans2.png" alt=""/>
+                  </div>
+              </div>
+              </div>
+
+
+          </div>
       </section>
 
-      {/* Services */}
+        {/* Services */}
       <section className="services">
         
       </section>

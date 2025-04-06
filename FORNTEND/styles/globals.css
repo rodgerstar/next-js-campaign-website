@@ -19,16 +19,16 @@ body {
 }
 
 :root {
-    --image-url: url('/img/me.png');
+    --image-url: url('/img/evans.png');
 }
 
 .dark {
-    --image-url: url('/img/coderwhite.png');
+    --image-url: url('/img/evans.png');
 }
 
-.hero_img_box img {
-    content: var(--image-url);
-}
+/*.hero_img_box img {*/
+/*    content: var(--image-url);*/
+/*}*/
 
 body .dark {
     background-color: #fff !important;
@@ -234,7 +234,7 @@ img {
 /* ================================================== */
 
 :root {
-    --main-site-color: #9500ff;
+    --main-site-color: #444049;
     --dark-black: #000;
     --pure-white: #fff;
     --week-white: #F6F3FC;
@@ -586,7 +586,7 @@ header.sticky {
 }
 
 .hero_sb_title {
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 700;
     display: block;
     margin-bottom: 10px;
@@ -612,12 +612,17 @@ header.sticky {
 }
 
 .lead {
-    font-size: 22px;
+    font-size: 20px;
     max-width: 550px;
     font-weight: 300;
     width: 100%;
-    margin-bottom: 0;
+    margin-bottom: 6px;
     line-height: 1.5;
+}
+.lead span {
+    text-transform: uppercase;
+    font-size: 20px;
+
 }
 
 .dark .lead {
@@ -678,14 +683,14 @@ header.sticky {
 
 .hero_social li a svg {
     font-size: 20px;
-    color: var(--main-site-color);
+    color: #a8a8a8;
     z-index: 2;
 }
 
 .hero_social li a::before {
     content: "";
     position: absolute;
-    top: 0;
+    top: 4px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -718,33 +723,38 @@ header.sticky {
     display: none;
 }
 
-.hero_img_box::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    background: linear-gradient(260deg, var(--main-site-color) 0%, rgba(115, 67, 210, 0) 100%);
-    filter: blur(100px);
-    margin-left: -5%;
-    margin-bottom: -5%;
+.heroimageright {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
 
-.hero_img_box img {
-    border-radius: 38px;
-    transform: rotate(4.29deg);
-    position: relative;
-    border: 2px solid var(--dark-site-secondary);
-    transition: 0.3s;
+.heroimageright img {
+    margin-top: -100px;
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  border-radius: 1rem;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+.heroimageright::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px; /* Adjust to cover the cut */
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(0,0,0,0.4) 100%);
+  z-index: 1;
+    margin-top: -50px;
 }
 
-.hero_img_box img:hover {
-    border: 2px solid var(--main-site-color);
-    transform: rotate(0);
+.heroimageright img:hover {
+  transform: scale(1.03);
 }
-
 
 .hero .intro_text svg {
     font-family: "Russo One", sans-serif;
@@ -780,7 +790,7 @@ header.sticky {
     text-transform: uppercase;
     stroke-width: 1.2;
     stroke: #2a1454;
-    font-size: 240px;
+    font-size: 200px;
     fill: transparent;
     display: inline-block;
 }
@@ -789,12 +799,12 @@ header.sticky {
 
 .hero .intro_text svg text.animate-stroke {
     animation: stroke 4s;
-    opacity: 0.7;
+    opacity: 0.2;
 }
 
 .dark .hero .intro_text svg text.animate-stroke {
     animation: stroke 4s;
-    opacity: 0.3;
+    opacity: 0.1;
 }
 
 .dark .hero .intro_text svg text {
@@ -4389,7 +4399,7 @@ header.sticky {
     }
 
     .hero_sb_title {
-        font-size: 28px;
+        font-size: 22px;
     }
 
     .lead {
@@ -4398,14 +4408,17 @@ header.sticky {
 
     .heroimageright {
         padding-left: 75px;
+        margin-top: 50px;
     }
 
     .hero_img_box {
         width: 450px;
-        height: 475px;
+        height: 800px;
+        margin-top: -2px;
     }
 
     .hero_img_box img {
+        object-position: top;
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -4472,7 +4485,7 @@ header.sticky {
     }
 
     .hero_sb_title {
-        font-size: 25px;
+        font-size: 20px;
     }
 
     .hero_img_box {
@@ -4651,7 +4664,7 @@ header.sticky {
     }
 
     .hero_sb_title {
-        font-size: 30px;
+        font-size: 26px;
     }
 
     .contactpage {
@@ -4843,6 +4856,9 @@ header.sticky {
     .lead {
         text-align: center;
     }
+    .lead span {
+        font-size: 16px;
+    }
 
     .hero_btn_box {
         flex-direction: column;
@@ -4918,6 +4934,7 @@ header.sticky {
 @media screen and (max-width: 450px) {
     .hero_sb_title {
         font-size: 22px;
+        text-align: center;
     }
 
     .hero_title {
