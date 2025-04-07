@@ -132,7 +132,7 @@ export default function Home() {
             <div className='container'>
                 <div className='services_titles'>
                     <h2>My Vision for Our Ward.</h2>
-                    <p>By 2027, we will empower the youth, uplift women, improve infrastructure, and ensure better
+                    <p>By 2032, we will empower the youth, uplift women, improve infrastructure, and ensure better
                         access to healthcare, education, and job opportunities for all in our ward.</p>
                 </div>
                 <div className='services_menu'>

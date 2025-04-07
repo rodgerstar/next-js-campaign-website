@@ -4776,7 +4776,7 @@ header.sticky {
 
     .hero_img_box img {
         transform: none;
-        border: 2px solid var(--main-site-color);
+        /*border: 2px solid var(--main-site-color);*/
     }
 
     .projects {
