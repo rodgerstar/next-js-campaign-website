@@ -671,7 +671,7 @@ header.sticky {
 
 .hero_social li a {
     position: relative;
-    border: 1px solid var(--main-site-color);
+    border: 1px solid #64748b;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -829,7 +829,7 @@ header.sticky {
 
 .funfect_area {
     position: relative;
-    margin-top: 120px;
+    margin-top: 80px;
 }
 
 .funfect_item {
@@ -4641,12 +4641,13 @@ header.sticky {
     }
 
     .heroinfoleft {
+        margin-top: -70px;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        text-align: left;
+        text-align: center;
     }
 
     .heroimageright {
@@ -4699,7 +4700,7 @@ header.sticky {
 
     .funfect_item {
         width: 30%;
-        text-align: center;
+        text-align: left;
         justify-content: center;
     }
 
@@ -4748,6 +4749,7 @@ header.sticky {
 
     .funfect_item {
         width: 50%;
+        text-align: left;
     }
 
     .project_buttons {
@@ -4964,7 +4966,7 @@ header.sticky {
     }
 
     .funfect_area {
-        margin-top: 2rem;
+        margin-top: 1rem;
     }
 
     .services {
