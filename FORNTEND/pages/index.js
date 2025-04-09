@@ -3,178 +3,258 @@ import {FaLinkedinIn, FaTiktok, FaTwitter} from "react-icons/fa";
 import {CiFacebook} from "react-icons/ci";
 import {FaFacebookF, FaXTwitter} from "react-icons/fa6";
 import {GoArrowUpRight} from "react-icons/go";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import Link from "next/link";
+import Spinner from "@/components/Spinner";
 
 export default function Home() {
 
 
     // active service background
-     const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(0);
 
-     const handleHover = (index) => {
-         setActiveIndex(index);
-     }
-
-     const handleMouseOut = () => {
-         setActiveIndex(0);
-     }
-
-
-
-  // services data
-
- const vision = [
-    {
-        title: "Vision 2027: Empowering the Youth for a Brighter Future",
-        description: "By 2027, we will prioritize empowering the youth, ensuring they have access to education, skills training, and job opportunities. We will create programs to address the youth bulge, with a focus on entrepreneurship, vocational training, and mentorship, enabling the next generation to thrive and contribute to the community."
-    },
-    {
-        title: "Women and Family Empowerment: A Stronger Foundation for Our Society",
-        description: "In 2027, we will focus on uplifting women and families by promoting equal opportunities in education, leadership, and business. By providing resources and support to women, we will foster a more inclusive society where families can thrive in a secure and supportive environment."
-    },
-    {
-        title: "Improving Healthcare and Food Security for All",
-        description: "Access to affordable healthcare and food security are fundamental rights. My vision for 2027 includes improving healthcare facilities, increasing access to essential services, and promoting local agriculture to ensure that every Kenyan has access to nutritious food, proper medical care, and a healthier life."
-    },
-    {
-        title: "Lighting Up Communities and Small Markets",
-        description: "My vision is to bring streetlights to small markets and rural communities, ensuring safety and creating an environment conducive to business growth and community development. These efforts will enhance trade, increase security, and improve the quality of life for everyone."
-    },
-    {
-        title: "Supporting Bright, Needy Students to Achieve Their Dreams",
-        description: "By 2027, I will implement a program that supports needy but bright students, helping them access upskilling opportunities and quality education. Through scholarships, mentorship programs, and partnerships with educational institutions, we will ensure every deserving student has the chance to succeed."
+    const handleHover = (index) => {
+        setActiveIndex(index);
     }
-];
+
+    const handleMouseOut = () => {
+        setActiveIndex(0);
+    }
 
 
-  
+    // services data
 
-  return (
-    <>
-      <Head>
-        <title>Evans Osore - Makunga Isongo Malaha Ward 2027</title>
-        <meta name="description" content="evans osore campaign website" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="shortcut icon" type="image/png" href="/favicon.png" />
-      </Head>
+    const vision = [
+        {
+            title: "Vision 2027: Empowering the Youth for a Brighter Future",
+            description: "By 2027, we will prioritize empowering the youth, ensuring they have access to education, skills training, and job opportunities. We will create programs to address the youth bulge, with a focus on entrepreneurship, vocational training, and mentorship, enabling the next generation to thrive and contribute to the community."
+        },
+        {
+            title: "Women and Family Empowerment: A Stronger Foundation for Our Society",
+            description: "In 2027, we will focus on uplifting women and families by promoting equal opportunities in education, leadership, and business. By providing resources and support to women, we will foster a more inclusive society where families can thrive in a secure and supportive environment."
+        },
+        {
+            title: "Improving Healthcare and Food Security for All",
+            description: "Access to affordable healthcare and food security are fundamental rights. My vision for 2027 includes improving healthcare facilities, increasing access to essential services, and promoting local agriculture to ensure that every Kenyan has access to nutritious food, proper medical care, and a healthier life."
+        },
+        {
+            title: "Lighting Up Communities and Small Markets",
+            description: "My vision is to bring streetlights to small markets and rural communities, ensuring safety and creating an environment conducive to business growth and community development. These efforts will enhance trade, increase security, and improve the quality of life for everyone."
+        },
+        {
+            title: "Supporting Bright, Needy Students to Achieve Their Dreams",
+            description: "By 2027, I will implement a program that supports needy but bright students, helping them access upskilling opportunities and quality education. Through scholarships, mentorship programs, and partnerships with educational institutions, we will ensure every deserving student has the chance to succeed."
+        }
+    ];
 
-      {/* hero section */}
-      <section className="hero">
-          <div className='intro_text'>
-              <svg viewBox="0 0 1320 300">
-                  <text x='50%' y='50%' textAnchor='middle' className='animate-stroke'>MCHAPA KAZI</text>
-              </svg>
-          </div>
-          <div className='container'>
-              <div className='flex w-100'>
-                  <div className='heroinfoleft'>
-                      <span className='hero_sb_title'>Your Voice, Your Power, Your Future.</span>
-                      <h1 className='hero_title'>Elect Osore Evans.</h1>
+    const [loading, setLoading] = useState(true)
+    const [alldata, setAlldata] = useState([]);
+    const [allWork, setAllWork] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const [filteredProjects, setFilteredProjects] = useState([])
 
-                      <div className='hero_img_box heroimgbox'>
-                          <img src="/img/evans.png" alt=""/>
-                      </div>
-                      <div className='lead '>
-                          We’ve waited long enough for leaders who truly represent us. The time for real, honest
-                          leadership is now. I’m ready to stand with you, walk with you, and work for you — because our
-                          community deserves
-                          better. <span> Ahadi ni Matendo, Kuaminika, Kutenda na Kuleta Mabadiliko. </span>
-                      </div>
-                      <ul className='hero_social'>
-                          <li>
-                              <a href="/"><FaXTwitter/></a>
-                          </li>
-                          <li>
-                              <a href="/"><FaFacebookF/></a>
-                          </li>
-                          <li>
-                              <a href="/"><FaTiktok/></a>
-                          </li>
-                          <li>
-                              <a href="/"><FaLinkedinIn/></a>
-                          </li>
-                      </ul>
-                  </div>
+    useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const projectResponse = await fetch('/api/projects');
+            const projectData = await projectResponse.json();
+            setAlldata(projectData);
+        } catch (error) {
+            console.error('Error fetching project data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    fetchData();
+    }, []);
 
-                  {/*right side*/}
-                  <div className='heroimageright'>
-                      <div className='hero_img_box'>
-                          <img src="/img/evans2.png" alt=""/>
-                      </div>
-                  </div>
-              </div>
-              <div className='funfect_area flex flex-sb'>
-                  <div className='funfect_item'>
-                      <h3>7+</h3>
-                      <h4>years in <br/> public service.</h4>
-                  </div>
-                  <div className='funfect_item'>
-                      <h3>5+</h3>
-                      <h4>years of <br/> Driving Ward Change.</h4>
-                  </div>
-                  <div className='funfect_item'>
-                      <h3>3+</h3>
-                      <h4>years of <br/> talent empowerment.</h4>
-                  </div>
-                  <div className='funfect_item'>
-                      <h3>2+</h3>
-                      <h4>years in <br/> policy advisory roles.</h4>
-                  </div>
-              </div>
+    useEffect(() => {
+        // filter project based on selected category
+        if (selectedCategory === 'All') {
+            setFilteredProjects(alldata.filter(pro => pro.status === 'publish'))
+        } else {
+            setFilteredProjects(alldata.filter(pro => pro.status === 'publish' && pro.projectCategory[0] === selectedCategory))
+        }
+
+    }, [selectedCategory, alldata]);
+
+    const handleCategoryChange = (category) => {
+        setSelectedCategory(category);
+    }
 
 
-          </div>
-      </section>
+    return (
+        <>
+            <Head>
+                <title>Evans Osore - Makunga Isongo Malaha Ward 2027</title>
+                <meta name="description" content="evans osore campaign website"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+            </Head>
 
-        {/* Services */}
-        <section className="services">
-            <div className='container'>
-                <div className='services_titles'>
-                    <h2>My Vision for Our Ward.</h2>
-                    <p>By 2032, we will empower the youth, uplift women, improve infrastructure, and ensure better
-                        access to healthcare, education, and job opportunities for all in our ward.</p>
+            {/* hero section */}
+            <section className="hero">
+                <div className='intro_text'>
+                    <svg viewBox="0 0 1320 300">
+                        <text x='50%' y='50%' textAnchor='middle' className='animate-stroke'>MCHAPA KAZI</text>
+                    </svg>
                 </div>
-                <div className='services_menu'>
-                    {vision.map((vision, index) => (
-                        <div key={index} className={`services_item  ${activeIndex === 
-                        index ? 'sactive' : '' }`}
-                        onMouseOver={() => handleHover(index)}
-                        onMouseOut={handleMouseOut}>
-                            <div className='left_s_box'>
-                                <span>0{index + 1}</span>
-                                <h3>{vision.title}</h3>
+                <div className='container'>
+                    <div className='flex w-100'>
+                        <div className='heroinfoleft'>
+                            <span className='hero_sb_title'>Your Voice, Your Power, Your Future.</span>
+                            <h1 className='hero_title'>Elect Osore Evans.</h1>
+
+                            <div className='hero_img_box heroimgbox'>
+                                <img src="/img/evans.png" alt=""/>
                             </div>
-                            <div className='right_s_box'>
-                                <p>{vision.description}</p>
+                            <div className='lead '>
+                                We’ve waited long enough for leaders who truly represent us. The time for real, honest
+                                leadership is now. I’m ready to stand with you, walk with you, and work for you —
+                                because our
+                                community deserves
+                                better. <span> Ahadi ni Matendo, Kuaminika, Kutenda na Kuleta Mabadiliko. </span>
                             </div>
-                            <GoArrowUpRight/>
+                            <ul className='hero_social'>
+                                <li>
+                                    <a href="/"><FaXTwitter/></a>
+                                </li>
+                                <li>
+                                    <a href="/"><FaFacebookF/></a>
+                                </li>
+                                <li>
+                                    <a href="/"><FaTiktok/></a>
+                                </li>
+                                <li>
+                                    <a href="/"><FaLinkedinIn/></a>
+                                </li>
+                            </ul>
                         </div>
-                    ))}
+
+
+                        {/*right side*/}
+                        <div className='heroimageright'>
+                            <div className='hero_img_box'>
+                                <img src="/img/evans2.png" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='funfect_area flex flex-sb'>
+                        <div className='funfect_item'>
+                            <h3>7+</h3>
+                            <h4>years in <br/> public service.</h4>
+                        </div>
+                        <div className='funfect_item'>
+                            <h3>5+</h3>
+                            <h4>years of <br/> Driving Ward Change.</h4>
+                        </div>
+                        <div className='funfect_item'>
+                            <h3>3+</h3>
+                            <h4>years of <br/> talent empowerment.</h4>
+                        </div>
+                        <div className='funfect_item'>
+                            <h3>2+</h3>
+                            <h4>years in <br/> policy advisory roles.</h4>
+                        </div>
+                    </div>
+
+
                 </div>
-            </div>
-        </section>
+            </section>
 
-        {/* Projects */}
-        <section className="projects">
+            {/* Services */}
+            <section className="services">
+                <div className='container'>
+                    <div className='services_titles'>
+                        <h2>My Vision for Our Ward.</h2>
+                        <p>By 2032, we will empower the youth, uplift women, improve infrastructure, and ensure better
+                            access to healthcare, education, and job opportunities for all in our ward.</p>
+                    </div>
+                    <div className='services_menu'>
+                        {vision.map((vision, index) => (
+                            <div key={index} className={`services_item  ${activeIndex ===
+                            index ? 'sactive' : ''}`}
+                                 onMouseOver={() => handleHover(index)}
+                                 onMouseOut={handleMouseOut}>
+                                <div className='left_s_box'>
+                                    <span>0{index + 1}</span>
+                                    <h3>{vision.title}</h3>
+                                </div>
+                                <div className='right_s_box'>
+                                    <p>{vision.description}</p>
+                                </div>
+                                <GoArrowUpRight/>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
-        </section>
+            {/* Projects */}
+            <section className="projects">
+                <div className='container'>
+                    <div className='project_titles'>
+                        <h2>My Work for the Community</h2>
+                        <p>Driven by the needs of our people, I’m committed to projects that uplift lives, improve
+                            infrastructure, and create real opportunities for growth in our ward.</p>
+                    </div>
+                    <div className='project_buttons'>
+                        <button className={selectedCategory === 'All' ? 'active' : ''} onClick={() => setSelectedCategory
+                        ('All')}>All</button>
+                        <button className={selectedCategory === 'education-youth' ? 'active' : ''} onClick={() => setSelectedCategory
+                        ('education-youth')}>Youth</button>
+                        <button className={selectedCategory === 'health-wellness' ? 'active' : ''} onClick={() => setSelectedCategory
+                        ('health-wellness')} >Health</button>
+                        <button className={selectedCategory === 'women-family' ? 'active' : ''} onClick={() => setSelectedCategory
+                        ('women-family')}>Elderly</button>
+                        <button className={selectedCategory === 'public-safety' ? 'active' : ''} onClick={() => setSelectedCategory
+                        ('public-safety')}>Security</button>
+                        <button className={selectedCategory === 'economic-growth' ? 'active' : ''} onClick={() => setSelectedCategory
+                        ('economic-growth')}>Jobs</button>
+                        <button className={selectedCategory === 'community-development' ? 'active' : ''} onClick={() => setSelectedCategory
+                        ('community-development')}>Community</button>
+                        <button className={selectedCategory === 'infrastructure-technology' ? 'active' : ''} onClick={() => setSelectedCategory
+                        ('infrastructure-technology')}>Infrastructure</button>
+                    </div>
+                    <div className='projects_cards'>
+                        {!loading ?  <div className='flex flex-center wh_100'><Spinner/></div> : (
+                           filteredProjects.length === 0 ? (<h1>No Projects Found!</h1>) : (
+                            filteredProjects.slice(0, 4).map((pro) => (
+                                <Link href='/' key={pro._id} className='procard'>
+                                    <div className='proimgbox'>
+                                        <img src={pro.images[0]} alt={pro.title} />
+                                    </div>
+                                    <div className='procontentbox'>
+                                        <h2>{pro.title}</h2>
+                                        <GoArrowUpRight/>
+                                    </div>
+                                </Link>
+                            ))
+                        )
+                        )}
 
-        {/* Experience study */}
-        <section className="exstudy">
+                    </div>
+                </div>
 
-        </section>
 
-        {/* My Skills */}
-        <section className="myskills">
+            </section>
 
-        </section>
+            {/* Experience study */}
+            <section className="exstudy">
 
-        {/* Recent Blogs */}
-        <section className="recentblogs">
+            </section>
 
-        </section>
+            {/* My Skills */}
+            <section className="myskills">
 
-    </>
-  );
+            </section>
+
+            {/* Recent Blogs */}
+            <section className="recentblogs">
+
+            </section>
+
+        </>
+    );
 }
